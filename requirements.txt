@@ -5,7 +5,6 @@ keyring
 keyrings.alt
 python-slugify
 requests
-github3.py
 uritemplate.py
 git-url-parse
 Jinja2
