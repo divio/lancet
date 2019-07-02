@@ -2,9 +2,9 @@
 Configuration management for the different components.
 """
 
-import os
 import configparser
 import importlib
+import os
 from collections import defaultdict
 
 

@@ -1,7 +1,8 @@
-from collections import OrderedDict
 import subprocess
+from collections import OrderedDict
 
 import click
+
 import pygit2
 from jinja2 import Template
 

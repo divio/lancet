@@ -1,8 +1,7 @@
 import click
 
+from lancet.utils import edit_template, taskstatus
 from tabulate import tabulate
-
-from lancet.utils import taskstatus, edit_template
 
 
 VERSION_FILTER_QUERY = (

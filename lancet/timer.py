@@ -1,11 +1,11 @@
 from datetime import date
 from urllib.parse import urljoin
 
-from .utils import cached_property
+import attr
 
 import requests
 
-import attr
+from .utils import cached_property
 
 
 @attr.s

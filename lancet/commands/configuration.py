@@ -1,10 +1,11 @@
-import os
 import configparser
+import os
 
 import click
+
 import keyring
 
-from ..settings import USER_CONFIG, PROJECT_CONFIG
+from ..settings import PROJECT_CONFIG, USER_CONFIG
 from ..utils import taskstatus
 
 
