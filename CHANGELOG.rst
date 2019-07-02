@@ -8,6 +8,7 @@ Changelog
 
 * Added linting to packages
 * Added test framework
+* Added formatted documentation
 * Aligned code with other addons
 
 

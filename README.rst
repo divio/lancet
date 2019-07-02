@@ -33,14 +33,14 @@ file for additional dependencies:
 
 |python|
 
-Please refer to the documentation in the docs/ directory for more information or visit our 
+Please refer to the documentation in the docs/ directory for more information or visit our
 `online documentation <http://lancet.readthedocs.org/en/latest/installation/>`_.
 
 
 Getting started
 ---------------
 
-Once `installed <http://lancet.readthedocs.org/en/latest/installation/>`_, 
+Once `installed <http://lancet.readthedocs.org/en/latest/installation/>`_,
 set up the initial configuration by running::
 
    lancet setup
@@ -61,7 +61,7 @@ You can run tests by executing::
 
     virtualenv env
     source env/bin/activate
-    pip install -r test_requirements/base.txt
+    pip install -r tests/requirements.txt
     python setup.py test
 
 
