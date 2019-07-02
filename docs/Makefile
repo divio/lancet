@@ -18,3 +18,7 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+# custom run command
+run:
+	sphinx-autobuild $(SOURCEDIR) $(BUILDDIR) --host 0.0.0.0 --port 8001
