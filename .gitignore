@@ -19,5 +19,7 @@ nosetests.xml
 # Translations
 *.mo
 
+.lancet
+
 # Sphinx
 docs/_build
