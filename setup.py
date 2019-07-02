@@ -17,7 +17,7 @@ REQUIREMENTS = [
     "pygit2>=0.28,<0.29",
     "python-gitlab",
     "python-slugify",
-    "requests
+    "requests",
     "sentry-sdk",
     "tabulate",
     "uritemplate.py",
@@ -53,6 +53,10 @@ setup(
     zip_safe=False,
     install_requires=REQUIREMENTS,
     classifiers=CLASSIFIERS,
-    test_suite='tests.settings.run',
-    entry_points='lancet.cli:main',
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
+    entry_points="""
+        [console_scripts]
+        lancet = lancet.cli:main
+    """,
 )
