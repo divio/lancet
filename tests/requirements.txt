@@ -1,4 +1,6 @@
--r requirements-test.txt
+pytest
+pytest-cov
+pytest-pep8
 
 # Automation
 Fabric

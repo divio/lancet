@@ -27,7 +27,7 @@ The following carefully crafted software packages are needed to install
 
 Required `Python packages`_ are automatically installed.
 
-.. _python packages: https://github.com/GaretJax/lancet/blob/master/requirements.txt
+.. _python packages: https://github.com/GaretJax/lancet/blob/master/setup.py
 
 
 ``pipsi``-dev
@@ -83,3 +83,9 @@ When installing the package in editable mode, using ``pip``'s ``-e`` flag, the
 distribution can be updated with the following command::
 
     ~/.local/venvs/lancet/bin/pip install -e path/to/the/project
+
+
+Release
+-------
+
+Run ``python setup.py sdist bdist_wheel upload``

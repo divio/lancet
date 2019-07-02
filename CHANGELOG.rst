@@ -1,14 +1,17 @@
-=======
-History
-=======
+=========
+Changelog
+=========
 
 
-0.7.7 - Unreleased
-==================
+0.8.0 - (unreleased)
+====================
+
+* Added linting to packages
+* Added test framework
+* Aligned code with other addons
 
 
-
-0.7.6 - 2015-06-11
+0.7.6 (2015-06-11)
 ==================
 
 * Add a command to list versions
@@ -16,14 +19,14 @@ History
 * Don't report ``bdb.BdbQuit`` exceptions to Sentry
 
 
-0.7.5 - 2015-06-06
+0.7.5 (2015-06-06)
 ==================
 
 * Improve the contribution guidelines
 * Add Sentry logging for exceptions
 
 
-0.7.4 - 2015-06-04
+0.7.4 (2015-06-04)
 ==================
 
 * Update requirements
@@ -31,7 +34,7 @@ History
 * Improve the contribution guidelines
 
 
-0.7.3 - 2015-05-31
+0.7.3 (2015-05-31)
 ==================
 
 * Update requirements
@@ -39,7 +42,7 @@ History
 * Add some packaging tools to the contrib commmands
 
 
-0.7.2 - 2015-05-13
+0.7.2 (2015-05-13)
 ==================
 
 * Update to libgit 0.22 (requires updated of the shared library).
@@ -48,14 +51,14 @@ History
 * Add support for command aliases.
 
 
-0.7.1 - 2015-02-26
+0.7.1 (2015-02-26)
 ==================
 
 * Expand users in the template path.
 * Update requirements.
 
 
-0.7.0 - 2015-02-26
+0.7.0 (2015-02-26)
 ==================
 
 * Added support for Jinja2-rendered templates to define the initial
@@ -72,7 +75,7 @@ History
 * Get the github login token from the keychain in a more robust way.
 
 
-0.6.0 - 2015-01-19
+0.6.0 (2015-01-19)
 ==================
 
 * Added support for pluggable Harvest task/project mapper.
@@ -87,13 +90,13 @@ History
 * Built in support for debugging exceptions.
 
 
-0.5.1 - 2015-01-13
+0.5.1 (2015-01-13)
 ==================
 
 * Coerce config values to int when calling ``init``.
 
 
-0.5.0 – 2015-01-05
+0.5.0 (2015-01-05)
 ==================
 
 * Include all resources in the distribution.
@@ -101,20 +104,21 @@ History
 * Added a ``pr`` command to automate pull requests creation.
 * The ``logout`` command can now logout from a single service.
 
-0.4.2 – 2015-01-05
+
+0.4.2 (2015-01-05)
 ==================
 
 * Fix ``python-slugify`` requirement.
 
 
-0.4.1 – 2015-01-05
+0.4.1 (2015-01-05)
 ==================
 
 * Update requirements.
 
 
-0.4 – 2015-01-05
-================
+0.4.0 (2015-01-05)
+==================
 
 .. warning::
 
@@ -132,8 +136,8 @@ History
 * Added an ``init`` command to create project-level configuration files (#2).
 
 
-0.3 – 2014-12-30
-================
+0.3.0 (2014-12-30)
+==================
 
 * Handle unassigned issues (#5).
 * Avoid logging out the web user when accessign the JIRA API (#4).
