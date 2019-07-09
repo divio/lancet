@@ -3,7 +3,6 @@ from setuptools import find_packages, setup
 
 from lancet import __version__
 
-
 REQUIREMENTS = [
     "attrs",
     "click",
@@ -25,16 +24,16 @@ REQUIREMENTS = [
 
 CLASSIFIERS = [
     "Development Status :: 4 - Beta",
-    'Environment :: Web Environment',
+    "Environment :: Web Environment",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
 ]
 
 
@@ -43,11 +42,11 @@ setup(
     version=__version__,
     author="Divio AG",
     author_email="info@divio.ch",
-    url='https://github.com/divio/lancet',
+    url="https://github.com/divio/lancet",
     license="MIT",
     description="Command line utility used by Divio.",
-    long_description=open('README.rst').read(),
-    packages=find_packages(exclude=['tests']),
+    long_description=open("README.rst").read(),
+    packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     zip_safe=False,
     install_requires=REQUIREMENTS,
