@@ -61,7 +61,7 @@ You can run tests by executing::
 
     virtualenv env
     source env/bin/activate
-    pip install -r tests/requirements.txt
+    pip install -r lancet/test/requirements.txt
     python setup.py test
 
 
