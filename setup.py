@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
 from lancet import __version__
@@ -46,7 +45,7 @@ setup(
     author_email="info@divio.ch",
     url='https://github.com/divio/lancet',
     license="MIT",
-    description="Command line utility to streamline various development activities.",
+    description="Command line utility used by Divio.",
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
