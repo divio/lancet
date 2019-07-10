@@ -1,30 +1,8 @@
 ======
-LANCET
+Lancet
 ======
 
-.. image:: https://img.shields.io/travis/GaretJax/lancet.svg
-   :target: https://travis-ci.org/GaretJax/lancet
-
-.. image:: https://img.shields.io/pypi/v/lancet.svg
-   :target: https://pypi.python.org/pypi/lancet
-
-.. image:: https://img.shields.io/pypi/dm/lancet.svg
-   :target: https://pypi.python.org/pypi/lancet
-
-.. image:: https://img.shields.io/coveralls/GaretJax/lancet/develop.svg
-   :target: https://coveralls.io/r/GaretJax/lancet?branch=develop
-
-.. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg
-   :target: http://lancet.readthedocs.org/en/latest/
-
-.. image:: https://img.shields.io/pypi/l/lancet.svg
-   :target: https://github.com/GaretJax/lancet/blob/develop/LICENSE
-
-.. image:: https://img.shields.io/requires/github/GaretJax/lancet.svg
-   :target: https://requires.io/github/GaretJax/lancet/requirements/?branch=master
-
-.. .. image:: https://img.shields.io/codeclimate/github/GaretJax/lancet.svg
-..   :target: https://codeclimate.com/github/GaretJax/lancet
+|pypi| |build| |coverage|
 
 From http://en.wikipedia.org/wiki/Scalpel:
 
@@ -35,22 +13,35 @@ From http://en.wikipedia.org/wiki/Scalpel:
 Lancet is a command line utility to streamline the various activities related
 to the development and maintenance of a software package.
 
-* Free software: MIT license
-* Documentation: http://lancet.rtfd.org
 
-
-Installation
+Contributing
 ============
 
-Check out the documentation_.
+This is a an open-source project. We'll be delighted to receive your
+feedback in the form of issues and pull requests.
 
-.. _documentation: http://lancet.readthedocs.org/en/latest/installation/
+We're grateful to all contributors who have helped create and maintain this package.
+Contributors are listed at the `contributors <https://github.com/divio/lancet/graphs/contributors>`_
+section.
+
+
+Documentation
+=============
+
+See ``REQUIREMENTS`` in the `setup.py <https://github.com/divio/lancet/blob/master/setup.py>`_
+file for additional dependencies:
+
+|python|
+
+Please refer to the documentation in the docs/ directory for more information or visit our
+`online documentation <http://lancet.readthedocs.org/en/latest/installation/>`_.
 
 
 Getting started
-===============
+---------------
 
-Once installed, set up the initial configuration by running::
+Once `installed <http://lancet.readthedocs.org/en/latest/installation/>`_,
+set up the initial configuration by running::
 
    lancet setup
 
@@ -62,27 +53,24 @@ For each not-yet-configured project, you can then run::
 This creates a new project-level configuration file that can be shared across
 different users (and thus commited to source control).
 
-Install dev version
-===================
 
-::
+Running Tests
+-------------
 
-   ~/.local/venvs/lancet/bin/pip uninstall lancet
-   ~/.local/venvs/lancet/bin/pip install https://github.com/GaretJax/lancet/archive/master.zip
+You can run tests by executing::
+
+    virtualenv env
+    source env/bin/activate
+    pip install -r lancet/test/requirements.txt
+    python setup.py test
 
 
-TODO
-====
+.. |pypi| image:: https://badge.fury.io/py/lancet.svg
+    :target: http://badge.fury.io/py/lancet
+.. |build| image:: https://travis-ci.org/divio/lancet.svg?branch=master
+    :target: https://travis-ci.org/divio/lancet
+.. |coverage| image:: https://codecov.io/gh/divio/lancet/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/divio/lancet
 
-A lot of commands are still missing, as for example:
-
-* ``review``: to streamline the whole reviewing process (pulling, linting,\
-  diffs,...).
-* ``merge``: to help in getting a more strict merge process in place (and
-  cleanup afterwards). Can include rebasing helpers.
-* Other issue tracker/Harvest interaction utilities (``list``, ``search``,
-  ``comment``, ...)
-
-* Harvest: https://id.getharvest.com/developers (user_id: number in the profile url, username: account id on developers)
-* JIRA: https://id.atlassian.com/manage/api-tokens (username: your divio.ch email address)
-* Gitlab: https://gitlab.com/profile/personal_access_tokens (api)
+.. |python| image:: https://img.shields.io/badge/python-3.4%20%7C%203.5%20%7C%203.6%20%7C%203.7-blue.svg
+    :target: https://pypi.org/project/lancet/
