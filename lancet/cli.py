@@ -13,6 +13,7 @@ from .base import Lancet, ShellIntegrationHelper, WarnIntegrationHelper
 from .settings import (
     DEFAULT_CONFIG,
     PROJECT_CONFIG,
+    USER_CONFIG,
     as_dict,
     diff_config,
     load_config,
@@ -32,7 +33,15 @@ IGNORED_EXCEPTIONS = set([bdb.BdbQuit])
 
 
 def get_sentry_client(sentry_dsn):
-    return sentry_sdk.Client(sentry_dsn, release=__version__)
+    try:
+        return sentry_sdk.Client(sentry_dsn, release=__version__)
+    except sentry_sdk.utils.BadDsn:
+        click.secho(
+            f'Please provide a valid sentry_dsn value in "{USER_CONFIG}"',
+            fg="red",
+            bold=True,
+        )
+        click.secho()
 
 
 class SubprocessExecuter(click.BaseCommand):
