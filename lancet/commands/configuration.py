@@ -21,6 +21,99 @@ from ..utils import taskstatus
     help="Adds additional steps to the wizard for debugging.",
 )
 @click.pass_context
+def hello(ctx, force, debug):
+    if os.path.exists(USER_CONFIG) and not force:
+        click.secho(
+            f'An existing configuration file was found at "{USER_CONFIG}"',
+            fg="red",
+            bold=True,
+        )
+        click.secho(
+            "Please remove it before in order to run the setup wizard or use"
+            "the\n --force flag to overwrite it."
+        )
+        ctx.exit(1)
+
+    current_step = 1
+    total_steps = 3
+    if debug:
+        total_steps += 1
+
+    # configure gitlab
+    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho("Enter your Gitlab username:")
+    gitlab_user = click.prompt("Username")
+    click.secho()
+    current_step += 1
+
+    # configure harvest
+    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho(
+        "Add the company wide account ID.\n"
+        "You can get it from https://id.getharvest.com/developers."
+    )
+    timer_id = click.prompt("Accound ID")
+    click.secho()
+    current_step += 1
+
+    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho(
+        "Add the user ID found on your profile's URL:\n"
+        "https://divio.harvestapp.com/people/<YOUR_ID>/."
+    )
+    timer_user = click.prompt("User ID")
+    click.secho()
+    current_step += 1
+
+    if debug:
+        click.secho(
+            "Running with --debug, additional setup parameters will "
+            "be requested.",
+            fg="green",
+            bold=True,
+        )
+        click.secho(f"Step {current_step} of {total_steps}")
+        click.secho("Please provide the SENTRY_DSN link:")
+        sentry_dsn = click.prompt("Sentry DSN")
+        click.secho()
+        current_step += 1
+
+    # writing configuration
+    config = configparser.ConfigParser()
+
+    config.add_section("lancet")
+    config.add_section("tracker:gitlab")
+    config.add_section("scm-manager:gitlab")
+    config.add_section("timer:harvest")
+
+    if debug and sentry_dsn:
+        config.set("lancet", "sentry_dsn", sentry_dsn)
+    config.set("tracker:gitlab", "username", gitlab_user)
+    config.set("scm-manager:gitlab", "username", gitlab_user)
+    config.set("timer:harvest", "username", timer_id)
+    config.set("timer:harvest", "user_id", timer_user)
+
+    with open(USER_CONFIG, "w") as fh:
+        config.write(fh)
+
+    click.secho(
+        f'Configuration correctly written to "{USER_CONFIG}".',
+        fg="green",
+    )
+
+
+@click.command()
+@click.option(
+    "-f", "--force/--no-force",
+    default=False,
+    help="Setup even if .lancet already exists.",
+)
+@click.option(
+    "-d", "--debug/--no-debug",
+    default=False,
+    help="Adds additional steps to the wizard for debugging.",
+)
+@click.pass_context
 def setup(ctx, force, debug):
     """Wizard to create the user-level configuration file."""
     if os.path.exists(USER_CONFIG) and not force:
