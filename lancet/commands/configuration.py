@@ -11,19 +11,21 @@ from ..utils import taskstatus
 
 @click.command()
 @click.option(
-    "-f", "--force/--no-force",
+    "-f",
+    "--force/--no-force",
     default=False,
     help="Setup even if .lancet already exists.",
 )
 @click.option(
-    "-d", "--debug/--no-debug",
+    "-d",
+    "--debug/--no-debug",
     default=False,
     help="Adds additional steps to the wizard for debugging.",
 )
 @click.pass_context
 def setup(ctx, force, debug):
     # environment variable used for testing
-    user_path = os.environ.get('ENV_USER_CONFIG') or USER_CONFIG
+    user_path = os.environ.get("ENV_USER_CONFIG") or USER_CONFIG
 
     if os.path.exists(user_path) and not force:
         click.secho(
@@ -43,14 +45,14 @@ def setup(ctx, force, debug):
         total_steps += 1
 
     # configure gitlab
-    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho("Step {} of {}".format(current_step, total_steps))
     click.secho("Enter your Gitlab username:")
     gitlab_user = click.prompt("Username")
     click.secho()
     current_step += 1
 
     # configure harvest
-    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho("Step {} of {}".format(current_step, total_steps))
     click.secho(
         "Add the company wide account ID.\n"
         "You can get it from https://id.getharvest.com/developers."
@@ -59,7 +61,7 @@ def setup(ctx, force, debug):
     click.secho()
     current_step += 1
 
-    click.secho(f"Step {current_step} of {total_steps}")
+    click.secho("Step {} of {}".format(current_step, total_steps))
     click.secho(
         "Add the user ID found on your profile's URL:\n"
         "https://divio.harvestapp.com/people/<YOUR_ID>/."
@@ -75,7 +77,7 @@ def setup(ctx, force, debug):
             fg="green",
             bold=True,
         )
-        click.secho(f"Step {current_step} of {total_steps}")
+        click.secho("Step {} of {}".format(current_step, total_steps))
         click.secho("Please provide the SENTRY_DSN link:")
         sentry_dsn = click.prompt("Sentry DSN")
         click.secho()
@@ -100,8 +102,7 @@ def setup(ctx, force, debug):
         config.write(fh)
 
     click.secho(
-        f'Configuration correctly written to "{user_path}".',
-        fg="green",
+        f'Configuration correctly written to "{user_path}".', fg="green"
     )
 
 
