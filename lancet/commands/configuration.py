@@ -102,7 +102,7 @@ def setup(ctx, force, debug):
         config.write(fh)
 
     click.secho(
-        f'Configuration correctly written to "{user_path}".', fg="green"
+        'Configuration correctly written to "{}".'.format(user_path), fg="green"
     )
 
 
