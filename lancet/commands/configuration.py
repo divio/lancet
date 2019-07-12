@@ -29,7 +29,7 @@ def setup(ctx, force, debug):
 
     if os.path.exists(user_path) and not force:
         click.secho(
-            f'An existing configuration file was found at "{user_path}"',
+            'An existing configuration file was found at "{}"'.format(user_path),
             fg="red",
             bold=True,
         )
