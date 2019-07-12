@@ -1,24 +1,26 @@
+import os
+
 from textwrap import dedent
 from tempfile import mkdtemp
 
 from click.testing import CliRunner
 
-from lancet.commands.configuration import hello
-
-from ..settings import USER_CONFIG
-
+from lancet.settings import LOCAL_CONFIG
+from lancet.commands.configuration import setup as setup_command
 
 
-def test_hello_world():
-    user_input = ["john-doe", "12345", "67890"]
+def test_setup_command():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(hello, args="-f", input="\n".join(user_input))
-        assert result.exit_code == 0
+        user_input = ["john-doe", "12345", "67890"]
+        user_path = f"{os.getcwd()}/{LOCAL_CONFIG}"
 
-        # import os
-        # print('#######')
-        # print(os.getcwd())
+        result = runner.invoke(
+            setup_command,
+            env={"ENV_USER_CONFIG": user_path},
+            input="\n".join(user_input),
+        )
+        assert result.exit_code == 0
 
         # print(result.output)
         text = dedent(f"""
@@ -36,6 +38,6 @@ def test_hello_world():
             https://divio.harvestapp.com/people/<YOUR_ID>/.
             User ID: 67890
 
-            Configuration correctly written to "{USER_CONFIG}".\n""")
+            Configuration correctly written to "{user_path}".\n""")
         text = '\n'.join(text.split('\n')[1:])  # remove first line break
         assert result.output == text

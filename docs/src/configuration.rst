@@ -46,8 +46,6 @@ Create a ``.lancet`` configuration file inside your projects root. The contents 
     task_id = {harvest_task_id}
 
 
-
-
 Project initialization
 ======================
 
