@@ -1,14 +1,20 @@
-==================================
-Welcome to Lancet's documentation!
-==================================
+.. Lancet documentation master file, created by
+   sphinx-quickstart on Tue Jul  2 12:24:18 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+====================
+Lancet documentation
+====================
 
 .. toctree::
-   :hidden:
-   :maxdepth: 2
+    :maxdepth: 1
 
-   installation
-   configuration
-   commands
+    src/installation
+    src/configuration
+    src/contributing
+    src/commands
+    src/todo
 
 
 Introduction
@@ -36,8 +42,16 @@ Features
 See http://cl.ly/0u28140B1Y15 for a short visual demo.
 
 
-TODOs
-=====
+Issues
+======
 
-See the `issue tracker <https://github.com/garetjax/lancet/issues>`_ for more
+See the `issue tracker <https://github.com/divio/lancet/issues>`_ for more
 details.
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
