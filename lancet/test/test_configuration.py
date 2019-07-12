@@ -20,7 +20,6 @@ def test_setup_command():
         )
         assert result.exit_code == 0
 
-        # print(result.output)
         text = dedent(
             """
             Step 1 of 3
