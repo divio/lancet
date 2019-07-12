@@ -3,8 +3,8 @@ from textwrap import dedent
 
 from click.testing import CliRunner
 
-from lancet.commands.configuration import setup as setup_command
-from lancet.settings import LOCAL_CONFIG
+from ..commands.configuration import setup as setup_command
+from ..settings import LOCAL_CONFIG
 
 
 def test_setup_command():
