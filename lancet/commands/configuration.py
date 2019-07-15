@@ -61,7 +61,7 @@ def setup(ctx, force, debug):
     if tracker == 3:
         total_steps += 1
 
-    # gitlab
+    # Gitlab
     if tracker == 1 or tracker == 3:
         config.add_section("tracker:gitlab")
         config.add_section("scm-manager:gitlab")
@@ -74,6 +74,7 @@ def setup(ctx, force, debug):
         config.set("tracker:gitlab", "username", gitlab_user)
         config.set("scm-manager:gitlab", "username", gitlab_user)
 
+    # Jira
     if tracker == 2 or tracker == 3:
         config.add_section("tracker:jira")
         # configure gitlab
@@ -85,8 +86,8 @@ def setup(ctx, force, debug):
         config.set("tracker:jira", "url", "https://divio-ch.atlassian.net")
         config.set("tracker:jira", "username", gitlab_user)
 
+    # Harvest
     config.add_section("timer:harvest")
-    # configure harvest
     click.secho("Step {} of {}".format(current_step, total_steps))
     click.secho(
         "Enter the Harvest account ID:\n"
