@@ -1,5 +1,6 @@
 import configparser
 import os
+import sys
 
 import click
 
@@ -39,22 +40,29 @@ def setup(ctx, force, debug):
         )
         ctx.exit(1)
 
-    # TODO: integrate different services
-    # TODO: use gitlab, jira or both
-    gitlab = True
-    harvest = True
-
-    # writing configuration
+    # setting up wizard
     config = configparser.ConfigParser()
     config.add_section("lancet")
-
-    # setting up wizard
     current_step = 1
     total_steps = 3
     if debug:
         total_steps += 1
 
-    if gitlab:
+    # configurator
+    click.secho("Welcome to the Lancet setup wizard.".format(current_step, total_steps))
+    click.secho("Please choose a tracker:")
+    tracker = click.prompt("(1) Gitlab, (2) Jira, (3) Both")
+    click.secho()
+    try:
+        tracker = int(tracker)
+    except ValueError:
+        sys.exit("Please provide a valid nummerical choice.")
+
+    if tracker == 3:
+        total_steps += 1
+
+    # gitlab
+    if tracker == 1 or tracker == 3:
         config.add_section("tracker:gitlab")
         config.add_section("scm-manager:gitlab")
         # configure gitlab
@@ -66,28 +74,38 @@ def setup(ctx, force, debug):
         config.set("tracker:gitlab", "username", gitlab_user)
         config.set("scm-manager:gitlab", "username", gitlab_user)
 
-    if harvest:
-        config.add_section("timer:harvest")
-        # configure harvest
+    if tracker == 2 or tracker == 3:
+        config.add_section("tracker:jira")
+        # configure gitlab
         click.secho("Step {} of {}".format(current_step, total_steps))
-        click.secho(
-            "Add the company wide account ID.\n"
-            "You can get it from https://id.getharvest.com/developers."
-        )
-        timer_id = click.prompt("Accound ID")
+        click.secho("Enter your Jira username:")
+        gitlab_user = click.prompt("Username")
         click.secho()
         current_step += 1
+        config.set("tracker:jira", "url", "https://divio-ch.atlassian.net")
+        config.set("tracker:jira", "username", gitlab_user)
 
-        click.secho("Step {} of {}".format(current_step, total_steps))
-        click.secho(
-            "Add the user ID found on your profile's URL:\n"
-            "https://divio.harvestapp.com/people/<YOUR_ID>/."
-        )
-        timer_user = click.prompt("User ID")
-        click.secho()
-        current_step += 1
-        config.set("timer:harvest", "username", timer_id)
-        config.set("timer:harvest", "user_id", timer_user)
+    config.add_section("timer:harvest")
+    # configure harvest
+    click.secho("Step {} of {}".format(current_step, total_steps))
+    click.secho(
+        "Enter the Harvest account ID:\n"
+        "(You can get it from https://id.getharvest.com/developers)"
+    )
+    timer_id = click.prompt("Accound ID")
+    click.secho()
+    current_step += 1
+
+    click.secho("Step {} of {}".format(current_step, total_steps))
+    click.secho(
+        "Enter the Harvest ID found on your profile's URL:\n"
+        "(You can get it from https://divio.harvestapp.com/people/<YOUR_ID>/)"
+    )
+    timer_user = click.prompt("User ID")
+    click.secho()
+    current_step += 1
+    config.set("timer:harvest", "username", timer_id)
+    config.set("timer:harvest", "user_id", timer_user)
 
     if debug:
         click.secho(
