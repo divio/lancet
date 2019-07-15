@@ -10,6 +10,7 @@ Changelog
 * Added test framework
 * Added formatted documentation
 * Aligned code with other addons
+* Updated ``setup`` command
 
 
 0.7.6 (2015-06-11)

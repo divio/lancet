@@ -33,15 +33,12 @@ IGNORED_EXCEPTIONS = set([bdb.BdbQuit])
 
 
 def get_sentry_client(sentry_dsn):
+    # ensure there is a valid sentry_dsn value added when running lancet
+    # commands and raise proper error to notify the user if not so
     try:
         return sentry_sdk.Client(sentry_dsn, release=__version__)
     except sentry_sdk.utils.BadDsn:
-        click.secho(
-            f'Please provide a valid sentry_dsn value in "{USER_CONFIG}"',
-            fg="red",
-            bold=True,
-        )
-        click.secho()
+        sys.exit('Please provide a valid sentry_dsn value in "{}"'.format(USER_CONFIG))
 
 
 class SubprocessExecuter(click.BaseCommand):

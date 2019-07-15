@@ -15,7 +15,7 @@ def test_setup_command():
 
         result = runner.invoke(
             setup_command,
-            env={"ENV_USER_CONFIG": user_path},
+            env={"LANCET_USER_CONFIG": user_path},
             input="\n".join(user_input),
         )
         assert result.exit_code == 0

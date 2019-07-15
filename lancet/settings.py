@@ -14,7 +14,8 @@ DEFAULT_CONFIG = os.path.join(
     os.path.dirname(__file__), "default-settings.ini"
 )
 SYSTEM_CONFIG = "/etc/{0}/{0}.conf".format(PACKAGE)
-USER_CONFIG = os.path.expanduser(os.path.join("~", LOCAL_CONFIG))
+USER_CONFIG = os.environ.get("LANCET_USER_CONFIG") or \
+              os.path.expanduser(os.path.join("~", LOCAL_CONFIG))
 PROJECT_CONFIG = os.path.join(os.path.realpath("."), LOCAL_CONFIG)
 
 DEFAULT_FILES = [DEFAULT_CONFIG, SYSTEM_CONFIG, USER_CONFIG]

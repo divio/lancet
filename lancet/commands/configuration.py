@@ -24,12 +24,12 @@ from ..utils import taskstatus
 )
 @click.pass_context
 def setup(ctx, force, debug):
-    # environment variable used for testing
-    user_path = os.environ.get("ENV_USER_CONFIG") or USER_CONFIG
 
-    if os.path.exists(user_path) and not force:
+    USER_CONFIG = os.environ.get("LANCET_USER_CONFIG")
+
+    if os.path.exists(USER_CONFIG) and not force:
         click.secho(
-            'An existing configuration file was found at "{}"'.format(user_path),
+            'An existing configuration file was found at "{}"'.format(USER_CONFIG),
             fg="red",
             bold=True,
         )
@@ -39,36 +39,55 @@ def setup(ctx, force, debug):
         )
         ctx.exit(1)
 
+    # TODO: integrate different services
+    # TODO: use gitlab, jira or both
+    gitlab = True
+    harvest = True
+
+    # writing configuration
+    config = configparser.ConfigParser()
+    config.add_section("lancet")
+
+    # setting up wizard
     current_step = 1
     total_steps = 3
     if debug:
         total_steps += 1
 
-    # configure gitlab
-    click.secho("Step {} of {}".format(current_step, total_steps))
-    click.secho("Enter your Gitlab username:")
-    gitlab_user = click.prompt("Username")
-    click.secho()
-    current_step += 1
+    if gitlab:
+        config.add_section("tracker:gitlab")
+        config.add_section("scm-manager:gitlab")
+        # configure gitlab
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho("Enter your Gitlab username:")
+        gitlab_user = click.prompt("Username")
+        click.secho()
+        current_step += 1
+        config.set("tracker:gitlab", "username", gitlab_user)
+        config.set("scm-manager:gitlab", "username", gitlab_user)
 
-    # configure harvest
-    click.secho("Step {} of {}".format(current_step, total_steps))
-    click.secho(
-        "Add the company wide account ID.\n"
-        "You can get it from https://id.getharvest.com/developers."
-    )
-    timer_id = click.prompt("Accound ID")
-    click.secho()
-    current_step += 1
+    if harvest:
+        config.add_section("timer:harvest")
+        # configure harvest
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho(
+            "Add the company wide account ID.\n"
+            "You can get it from https://id.getharvest.com/developers."
+        )
+        timer_id = click.prompt("Accound ID")
+        click.secho()
+        current_step += 1
 
-    click.secho("Step {} of {}".format(current_step, total_steps))
-    click.secho(
-        "Add the user ID found on your profile's URL:\n"
-        "https://divio.harvestapp.com/people/<YOUR_ID>/."
-    )
-    timer_user = click.prompt("User ID")
-    click.secho()
-    current_step += 1
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho(
+            "Add the user ID found on your profile's URL:\n"
+            "https://divio.harvestapp.com/people/<YOUR_ID>/."
+        )
+        timer_user = click.prompt("User ID")
+        click.secho()
+        current_step += 1
+        config.set("timer:harvest", "username", timer_id)
+        config.set("timer:harvest", "user_id", timer_user)
 
     if debug:
         click.secho(
@@ -82,27 +101,13 @@ def setup(ctx, force, debug):
         sentry_dsn = click.prompt("Sentry DSN")
         click.secho()
         current_step += 1
-
-    # writing configuration
-    config = configparser.ConfigParser()
-
-    config.add_section("lancet")
-    config.add_section("tracker:gitlab")
-    config.add_section("scm-manager:gitlab")
-    config.add_section("timer:harvest")
-
-    if debug and sentry_dsn:
         config.set("lancet", "sentry_dsn", sentry_dsn)
-    config.set("tracker:gitlab", "username", gitlab_user)
-    config.set("scm-manager:gitlab", "username", gitlab_user)
-    config.set("timer:harvest", "username", timer_id)
-    config.set("timer:harvest", "user_id", timer_user)
 
-    with open(user_path, "w") as fh:
+    with open(USER_CONFIG, "w") as fh:
         config.write(fh)
 
     click.secho(
-        'Configuration correctly written to "{}".'.format(user_path), fg="green"
+        'Configuration correctly written to "{}".'.format(USER_CONFIG), fg="green"
     )
 
 
