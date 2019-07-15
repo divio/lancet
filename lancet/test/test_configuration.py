@@ -4,7 +4,7 @@ from textwrap import dedent
 from click.testing import CliRunner
 
 from ..commands.configuration import setup as setup_command
-from ..settings import LOCAL_CONFIG
+from ..settings import LOCAL_CONFIG, USER_CONFIG
 
 
 def test_setup_command():
@@ -15,7 +15,7 @@ def test_setup_command():
 
         result = runner.invoke(
             setup_command,
-            env={"LANCET_USER_CONFIG": user_path},
+            env={"LANCET_TEST_USER_CONFIG": user_path},
             input="\n".join(user_input),
         )
         assert result.exit_code == 0

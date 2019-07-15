@@ -24,18 +24,18 @@ from ..utils import taskstatus
 )
 @click.pass_context
 def setup(ctx, force, debug):
+    # environment variable used for testing
+    user_path = os.environ.get("LANCET_TEST_USER_CONFIG") or USER_CONFIG
 
-    USER_CONFIG = os.environ.get("LANCET_USER_CONFIG")
-
-    if os.path.exists(USER_CONFIG) and not force:
+    if os.path.exists(user_path) and not force:
         click.secho(
-            'An existing configuration file was found at "{}"'.format(USER_CONFIG),
+            'An existing configuration file was found at "{}"'.format(user_path),
             fg="red",
             bold=True,
         )
         click.secho(
-            "Please remove it before in order to run the setup wizard or use"
-            "the\n --force flag to overwrite it."
+            "Please remove it before in order to run the setup wizard or use the\n"
+            "--force flag to overwrite it."
         )
         ctx.exit(1)
 
@@ -103,11 +103,11 @@ def setup(ctx, force, debug):
         current_step += 1
         config.set("lancet", "sentry_dsn", sentry_dsn)
 
-    with open(USER_CONFIG, "w") as fh:
+    with open(user_path, "w") as fh:
         config.write(fh)
 
     click.secho(
-        'Configuration correctly written to "{}".'.format(USER_CONFIG), fg="green"
+        'Configuration correctly written to "{}".'.format(user_path), fg="green"
     )
 
 
