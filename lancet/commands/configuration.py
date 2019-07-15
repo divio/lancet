@@ -165,8 +165,8 @@ def init(ctx, force):
         venv = ""
     venv_path = click.prompt("Path to virtual environment", default=venv)
 
-    project_id = click.prompt("Project id on Harvest", type=int)
-    task_id = click.prompt("Task ID on Harvest", type=int)
+    project_id = click.prompt("Project ID on Harvest", type=int)
+    task_id = click.prompt("Task id on Harvest", type=int)
 
     config = configparser.ConfigParser()
 
