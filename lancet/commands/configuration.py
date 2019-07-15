@@ -1,6 +1,5 @@
 import configparser
 import os
-import sys
 
 import click
 
@@ -34,11 +33,10 @@ def setup(ctx, force, debug):
             fg="red",
             bold=True,
         )
-        click.secho(
+        raise click.ClickException(
             "Please remove it before in order to run the setup wizard or use the\n"
             "--force flag to overwrite it."
         )
-        ctx.exit(1)
 
     # setting up wizard
     config = configparser.ConfigParser()
@@ -56,7 +54,7 @@ def setup(ctx, force, debug):
     try:
         tracker = int(tracker)
     except ValueError:
-        sys.exit("Please provide a valid nummerical choice.")
+        raise click.ClickException("Please provide a valid nummerical choice.")
 
     if tracker == 3:
         total_steps += 1
