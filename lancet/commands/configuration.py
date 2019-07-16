@@ -41,6 +41,7 @@ def setup(ctx, force, debug):
     # setting up wizard
     config = configparser.ConfigParser()
     config.add_section("lancet")
+
     current_step = 1
     total_steps = 3
     if debug:
@@ -51,6 +52,7 @@ def setup(ctx, force, debug):
     click.secho("Please choose a tracker:")
     tracker = click.prompt("(1) Gitlab, (2) Jira, (3) Both")
     click.secho()
+
     try:
         tracker = int(tracker)
     except ValueError:

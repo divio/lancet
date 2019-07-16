@@ -7,7 +7,7 @@ Commands reference
 ================
 
 The ``setup`` command invokes the installation wizard to create a
-user-level ``.lancet`` file.
+user-level ``~/.lancet`` file.
 
 It accepts the following options:
 
