@@ -1,10 +1,10 @@
-import os
 import glob
+import os
 
 import click
 
-from .settings import LOCAL_CONFIG, load_config
 from .git import BranchGetter
+from .settings import LOCAL_CONFIG, load_config
 from .utils import taskstatus
 
 

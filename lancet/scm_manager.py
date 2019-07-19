@@ -1,9 +1,9 @@
-import attr
 from urllib.parse import quote as urlquote
 
-from giturlparse import parse as giturlparse
+import attr
 
 from gitlab.exceptions import GitlabCreateError
+from giturlparse import parse as giturlparse
 
 
 class SCMManager:

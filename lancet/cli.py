@@ -1,24 +1,30 @@
-import os
-import sys
 import bdb
 import importlib
+import os
 import shlex
 import subprocess
+import sys
 
 import click
 from click.utils import make_str
+
+from . import __version__
+from .base import Lancet, ShellIntegrationHelper, WarnIntegrationHelper
+from .settings import (
+    DEFAULT_CONFIG,
+    PROJECT_CONFIG,
+    as_dict,
+    diff_config,
+    load_config,
+)
+from .utils import hr
+
 
 try:
     import sentry_sdk
     from sentry_sdk.utils import event_from_exception
 except ImportError:
     sentry_sdk = None
-
-from . import __version__
-from .settings import load_config, diff_config, as_dict
-from .settings import PROJECT_CONFIG, DEFAULT_CONFIG
-from .base import Lancet, WarnIntegrationHelper, ShellIntegrationHelper
-from .utils import hr
 
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])

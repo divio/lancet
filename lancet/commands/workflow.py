@@ -2,18 +2,18 @@ import os
 
 import click
 
-from ..settings import LOCAL_CONFIG, load_config
-from ..utils import taskstatus
 from ..helpers import (
+    assign_issue,
+    create_issue,
+    get_branch,
     get_issue,
+    get_project_dirs,
+    get_project_keys,
     get_transition,
     set_issue_status,
-    assign_issue,
-    get_branch,
-    get_project_keys,
-    get_project_dirs,
-    create_issue,
 )
+from ..settings import LOCAL_CONFIG, load_config
+from ..utils import taskstatus
 
 
 @click.command()

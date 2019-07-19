@@ -1,14 +1,14 @@
 import click
 
-from ..scm_manager import PullRequestAlreadyExists
-from ..utils import taskstatus, edit_template
 from ..helpers import (
+    assign_pull_request,
+    get_branch,
     get_issue,
     get_transition,
     set_issue_status,
-    get_branch,
-    assign_pull_request,
 )
+from ..scm_manager import PullRequestAlreadyExists
+from ..utils import edit_template, taskstatus
 
 
 @click.command()

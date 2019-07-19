@@ -1,6 +1,6 @@
 import click
 
-from ..helpers import get_issue, assign_issue, create_issue
+from ..helpers import assign_issue, create_issue, get_issue
 
 
 @click.command()
@@ -20,7 +20,6 @@ def issue():
     """
     Utilities to manage issues.
     """
-    pass
 
 
 @issue.command(name="add")

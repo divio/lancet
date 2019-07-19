@@ -1,23 +1,21 @@
 *.py[cod]
-*.so
-*.egg
+*$py.class
 *.egg-info
-dist
-build
-eggs
-sdist
-.venv
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
+*.log
+*.pot
+.DS_Store
 .coverage
-.tox
-nosetests.xml
+.coverage/
+.eggs/
+.idea/
+.project/
+.pydevproject/
+.vscode/
+.settings/
+.tox/
+__pycache__/
+build/
+dist/
+env/
 
-# Translations
-*.mo
-
-# Sphinx
-docs/_build
+docs/_build/

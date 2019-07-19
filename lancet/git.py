@@ -1,11 +1,12 @@
-import sys
 import re
-import six
+import sys
+
+import click
 
 import pygit2
-import click
-from slugify import slugify
+import six
 from giturlparse import parse as giturlparse
+from slugify import slugify
 
 from .utils import taskstatus
 

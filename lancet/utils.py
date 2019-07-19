@@ -1,12 +1,12 @@
-import os
-import functools
-import sys
 import curses
+import functools
+import os
+import sys
 
 import click
-from jinja2 import Template
-
 from pkg_resources import resource_string
+
+from jinja2 import Template
 
 
 def cached_property(*args, **kwargs):

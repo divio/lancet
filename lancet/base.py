@@ -3,8 +3,8 @@ import shlex
 import attr
 import click
 
-from .utils import cached_property, taskstatus
 from .git import Repository
+from .utils import cached_property, taskstatus
 
 
 class NullIntegrationHelper:
