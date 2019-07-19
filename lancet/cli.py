@@ -33,17 +33,7 @@ IGNORED_EXCEPTIONS = set([bdb.BdbQuit])
 
 
 def get_sentry_client(sentry_dsn):
-    # ensure there is a valid sentry_dsn value added when running lancet
-    # we do not want to raise an error as "lancet setup -f" would fail then
-    try:
-        return sentry_sdk.Client(sentry_dsn, release=__version__)
-    except sentry_sdk.utils.BadDsn:
-        click.secho(
-            'Please provide a valid sentry_dsn value in "{}"'.format(USER_CONFIG),
-            fg="red",
-            bold=True,
-        )
-        click.secho()
+    return sentry_sdk.Client(sentry_dsn, release=__version__)
 
 
 class SubprocessExecuter(click.BaseCommand):
@@ -247,7 +237,16 @@ def main(ctx, debug):
                 fg="yellow",
             )
         else:
-            sentry_client = get_sentry_client(sentry_dsn)
+            # ensure there is a valid sentry_dsn value added when running lancet
+            # we do not want to raise an error as "lancet setup -f" would fail then
+            try:
+                sentry_client = get_sentry_client(sentry_dsn)
+            except sentry_sdk.utils.BadDsn:
+                click.secho(
+                    'Please provide a valid sentry_dsn value in "{}"'.format(USER_CONFIG),
+                    fg="yellow",
+                    bold=True,
+                )
 
             def exception_handler(type, value, traceback):
                 settings_diff = diff_config(
