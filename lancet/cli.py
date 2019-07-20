@@ -13,6 +13,7 @@ from .base import Lancet, ShellIntegrationHelper, WarnIntegrationHelper
 from .settings import (
     DEFAULT_CONFIG,
     PROJECT_CONFIG,
+    USER_CONFIG,
     as_dict,
     diff_config,
     load_config,
@@ -236,7 +237,16 @@ def main(ctx, debug):
                 fg="yellow",
             )
         else:
-            sentry_client = get_sentry_client(sentry_dsn)
+            # ensure there is a valid sentry_dsn value added when running lancet
+            # we do not want to raise an error as "lancet setup -f" would fail then
+            try:
+                sentry_client = get_sentry_client(sentry_dsn)
+            except sentry_sdk.utils.BadDsn:
+                click.secho(
+                    'Please provide a valid sentry_dsn value in "{}"'.format(USER_CONFIG),
+                    fg="yellow",
+                    bold=True,
+                )
 
             def exception_handler(type, value, traceback):
                 settings_diff = diff_config(

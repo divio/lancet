@@ -10,59 +10,124 @@ from ..utils import taskstatus
 
 
 @click.command()
-@click.option("-f", "--force/--no-force", default=False)
+@click.option(
+    "-f",
+    "--force/--no-force",
+    default=False,
+    help="Setup even if .lancet already exists.",
+)
+@click.option(
+    "-d",
+    "--debug/--no-debug",
+    default=False,
+    help="Adds additional steps to the wizard for debugging.",
+)
 @click.pass_context
-def setup(ctx, force):
-    """Wizard to create the user-level configuration file."""
-    if os.path.exists(USER_CONFIG) and not force:
+def setup(ctx, force, debug):
+    # environment variable used for testing
+    user_path = os.environ.get("LANCET_TEST_USER_CONFIG") or USER_CONFIG
+
+    if os.path.exists(user_path) and not force:
         click.secho(
-            'An existing configuration file was found at "{}".\n'.format(
-                USER_CONFIG
-            ),
+            'An existing configuration file was found at "{}"'.format(user_path),
             fg="red",
             bold=True,
         )
-        click.secho(
-            "Please remove it before in order to run the setup wizard or use\n"
-            "the --force flag to overwrite it."
+        raise click.ClickException(
+            "Please remove it before in order to run the setup wizard or use the\n"
+            "--force flag to overwrite it."
         )
-        ctx.exit(1)
 
-    click.echo(
-        "Address of the issue tracker (your JIRA instance). \n"
-        "Normally in the form https://<company>.atlassian.net."
-    )
-    tracker_url = click.prompt("URL")
-    tracker_user = click.prompt("Username for {}".format(tracker_url))
-    click.echo()
-
-    click.echo(
-        "Address of the time tracker (your Harvest instance). \n"
-        "Normally in the form https://<company>.harvestapp.com."
-    )
-    timer_url = click.prompt("URL")
-    timer_user = click.prompt("Username for {}".format(timer_url))
-    click.echo()
-
+    # setting up wizard
     config = configparser.ConfigParser()
+    config.add_section("lancet")
 
-    config.add_section("tracker")
-    config.set("tracker", "url", tracker_url)
-    config.set("tracker", "username", tracker_user)
+    current_step = 1
+    total_steps = 3
+    if debug:
+        total_steps += 1
 
-    config.add_section("harvest")
-    config.set("harvest", "url", timer_url)
-    config.set("harvest", "username", timer_user)
+    # configurator
+    click.secho("Welcome to the Lancet setup wizard.".format(current_step, total_steps))
+    click.secho("Please choose a tracker:")
+    tracker = click.prompt("(1) Gitlab, (2) Jira, (3) Both")
+    click.secho()
 
-    with open(USER_CONFIG, "w") as fh:
+    try:
+        tracker = int(tracker)
+    except ValueError:
+        raise click.ClickException("Please provide a valid nummerical choice.")
+
+    if tracker == 3:
+        total_steps += 1
+
+    # Gitlab
+    if tracker == 1 or tracker == 3:
+        config.add_section("tracker:gitlab")
+        config.add_section("scm-manager:gitlab")
+        # configure gitlab
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho("Enter your Gitlab username:")
+        gitlab_user = click.prompt("Username")
+        click.secho()
+        current_step += 1
+        config.set("tracker:gitlab", "username", gitlab_user)
+        config.set("scm-manager:gitlab", "username", gitlab_user)
+
+    # Jira
+    if tracker == 2 or tracker == 3:
+        config.add_section("tracker:jira")
+        # configure gitlab
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho("Enter your Jira username:")
+        gitlab_user = click.prompt("Username")
+        click.secho()
+        current_step += 1
+        config.set("tracker:jira", "url", "https://divio-ch.atlassian.net")
+        config.set("tracker:jira", "username", gitlab_user)
+
+    # Harvest
+    config.add_section("timer:harvest")
+    click.secho("Step {} of {}".format(current_step, total_steps))
+    click.secho(
+        "Enter the Harvest account ID:\n"
+        "(You can get it from https://id.getharvest.com/developers)"
+    )
+    timer_id = click.prompt("Accound ID")
+    click.secho()
+    current_step += 1
+
+    click.secho("Step {} of {}".format(current_step, total_steps))
+    click.secho(
+        "Enter the Harvest ID found on your profile's URL:\n"
+        "(You can get it from https://divio.harvestapp.com/people/<YOUR_ID>/)"
+    )
+    timer_user = click.prompt("User ID")
+    click.secho()
+    current_step += 1
+    config.set("timer:harvest", "username", timer_id)
+    config.set("timer:harvest", "user_id", timer_user)
+
+    if debug:
+        click.secho(
+            "Running with --debug, additional setup parameters will "
+            "be requested.",
+            fg="green",
+            bold=True,
+        )
+        click.secho("Step {} of {}".format(current_step, total_steps))
+        click.secho("Please provide the SENTRY_DSN link:")
+        sentry_dsn = click.prompt("Sentry DSN")
+        click.secho()
+        current_step += 1
+        config.set("lancet", "sentry_dsn", sentry_dsn)
+
+    with open(user_path, "w") as fh:
         config.write(fh)
 
     click.secho(
-        'Configuration correctly written to "{}".'.format(USER_CONFIG),
-        fg="green",
+        'Configuration correctly written to "{}".'.format(user_path), fg="green"
     )
-
-    # TODO: Add wizard to setup shell integration
 
 
 @click.command()
@@ -89,7 +154,8 @@ def init(ctx, force):
         )
         ctx.exit(1)
 
-    project_key = click.prompt("Project key on the issue tracker")
+    project_id = click.prompt("Project id on Gitlab")
+    project_group = click.prompt("Project group on Gitlab")
     base_branch = click.prompt("Integration branch", default="master")
 
     virtualenvs = (".venv", ".env", "venv", "env")
@@ -110,7 +176,14 @@ def init(ctx, force):
     config.set("lancet", "virtualenv", venv_path)
 
     config.add_section("tracker")
-    config.set("tracker", "default_project", project_key)
+    config.set("tracker", "project_id", project_id)
+    config.set("tracker", "group_id", project_group)
+    config.set("tracker", "active_status", "dev::doing")
+    config.set("tracker", "paused_status", "")
+    config.set("tracker", "review_status", "dev::review")
+    config.set("tracker", "testing_status", "dev::testing")
+    config.set("tracker", "deploy_status", "rollout::to be deployed")
+    config.set("tracker", "done_status", "step::rollout")
 
     config.add_section("harvest")
     config.set("harvest", "project_id", str(project_id))

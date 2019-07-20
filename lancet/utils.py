@@ -2,11 +2,16 @@ import curses
 import functools
 import os
 import sys
+import warnings
 
 import click
 from pkg_resources import resource_string
 
-from jinja2 import Template
+
+# filtering warnings due to https://github.com/pallets/jinja/pull/867
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    from jinja2 import Template
 
 
 def cached_property(*args, **kwargs):
